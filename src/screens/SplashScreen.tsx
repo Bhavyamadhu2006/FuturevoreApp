@@ -6,17 +6,25 @@ import {
   TextInput,
   Dimensions,
   KeyboardAvoidingView,
-  Button,
 } from "react-native";
+import Button from "../components/button";
+import { useNavigation } from "@react-navigation/native";
+import SwiperWithChildren from "./SwiperWithChildren";
 
 interface splash {}
 
 const SplashScreen: FC<splash> = () => {
+  const navigation = useNavigation();
+
+  const handleClick = () => {
+    navigation.navigate("LoginScreen");
+    console.log("Splash Screen Button clicked");
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Welcome to Splash Screen.</Text>
-      <View>
-        <Text>Click me</Text>
+      <View style={styles.container}>
+        <SwiperWithChildren />
       </View>
     </View>
   );
