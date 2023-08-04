@@ -1,113 +1,22 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import {
-  Alert,
-  TouchableOpacity,
-  Image,
-  Dimensions,
-  StyleSheet,
-  Text,
   View,
+  StyleSheet,
+  Image,
+  Text,
+  TouchableOpacity,
+  Dimensions,
 } from "react-native";
 import SwiperFlatList from "react-native-swiper-flatlist";
-
-import Pagination from "./Pagination";
+import { slides } from "../data/splashSlidesData";
 
 const { width, height } = Dimensions.get("window");
 
-const SwiperComponent: React.FC = () => {
-  const scrollRef = useRef<SwiperFlatList | null>(null);
-
-  const goToLastIndex = () => {
-    scrollRef.current?.goToLastIndex();
-  };
-
-  const goToFirstIndex = () => {
-    scrollRef.current?.goToFirstIndex();
-  };
-
-  const goToSecondIndex = () => {
-    scrollRef.current?.scrollToIndex({ index: 1 });
-  };
-
-  const getCurrentIndex = () => {
-    const currentIndex = scrollRef.current?.getCurrentIndex() ?? 0;
-    Alert.alert(`the current index is ${currentIndex}`);
-  };
-
-  const getPrevIndex = () => {
-    const prevIndex = scrollRef.current?.getPrevIndex() ?? 0;
-    Alert.alert(`the previous index is ${prevIndex}`);
-  };
-
-  const onChangeIndex = ({ index, prevIndex }: any) => {
-    console.log({ index, prevIndex });
-  };
-
-  return (
-    <SwiperFlatList
-      showPagination
-      PaginationComponent={Pagination}
-      ref={scrollRef}
-      onChangeIndex={onChangeIndex}
-    >
-      <TouchableOpacity style={styles.child} onPress={goToLastIndex}>
-        <View>
-          <Image source={require("../images/food.jpg")} style={styles.image} />
-          <Text style={styles.text}>
-            From savory main courses to delectable desserts, discover
-            easy-to-follow recipes that are both healthy and cruelty-free.
-          </Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.child} onPress={getPrevIndex}>
-        <View>
-          <Image
-            source={require("../images/livewell.jpg")}
-            style={styles.image}
-          />
-          <Text style={styles.text}>
-            Support local home-based kitchens and order delicious vegan meals
-            prepared with love. Connect with talented home cooks who offer a
-            range of vegan dishes, delivering fresh and homemade food right to
-            your doorstep
-          </Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.child} onPress={getCurrentIndex}>
-        <View>
-          <Image
-            source={require("../images/meditate.jpg")}
-            style={styles.image}
-          />
-          <Text style={styles.text}>
-            Practice mindfulness, reduce stress, and find inner peace through
-            meditation practices tailored to enhance your well-being
-          </Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.child} onPress={goToSecondIndex}>
-        <View>
-          <Image source={require("../images/soil.jpg")} style={styles.image} />
-          <Text style={styles.text}>
-            Explore resources and articles on sustainability, conservation, and
-            how your food choices contribute to a greener planet
-          </Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.child} onPress={goToFirstIndex}>
-        <View>
-          <Image source={require("../images/steps.jpg")} style={styles.image} />
-          <Text style={styles.text}>
-            Stay active, maintain a balanced lifestyle, and achieve your fitness
-            goals with plant-based nutrition
-          </Text>
-        </View>
-      </TouchableOpacity>
-    </SwiperFlatList>
-  );
-};
-
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+  },
   child: {
     height: height * 0.5,
     width,
@@ -117,14 +26,95 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     resizeMode: "cover",
-    marginBottom: 70,
+    marginBottom: 40,
   },
-  text: {
-    textAlign: "center",
-    fontSize: 18,
-    marginTop: 8,
+  textContainer: {
+    padding: 20,
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+  title: {
+    fontSize: 24,
+    color: "white",
     fontWeight: "bold",
+    marginBottom: 10,
+  },
+  description: {
+    fontSize: 16,
+    color: "white",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginVertical: 100,
+  },
+  button: {
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 6,
+    backgroundColor: "black",
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 20,
   },
 });
+
+const SwiperComponent: React.FC = () => {
+  const scrollRef = useRef<SwiperFlatList | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const goToIndex = (index: number): void => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollToIndex({ index });
+    }
+  };
+
+  const goToNextSlide = (): void => {
+    if (scrollRef.current) {
+      const nextIndex = (currentIndex + 1) % slides.length;
+      scrollRef.current.scrollToIndex({ index: nextIndex });
+      setTimeout(() => {
+        setCurrentIndex(nextIndex);
+      }, 500); // Delay to ensure currentIndex state is updated after scroll is complete
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <SwiperFlatList
+        showPagination={false} // Hide the default dots pagination
+        ref={scrollRef}
+        onChangeIndex={({ index }) => setCurrentIndex(index)}
+      >
+        {slides.map((slide, index) => (
+          <TouchableOpacity
+            key={index}
+            style={styles.child}
+            onPress={() => goToIndex(index)}
+          >
+            <View>
+              <Image source={slide.image} style={styles.image} />
+              <View style={styles.textContainer}>
+                <Text style={styles.title}>{slide.title}</Text>
+                <Text style={styles.description}>{slide.description}</Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </SwiperFlatList>
+
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={() => goToNextSlide()}>
+          <Text style={styles.buttonText}>Next</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
 
 export default SwiperComponent;
