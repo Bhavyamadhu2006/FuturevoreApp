@@ -80,14 +80,14 @@ const SwiperComponent: React.FC = () => {
       scrollRef.current.scrollToIndex({ index: nextIndex });
       setTimeout(() => {
         setCurrentIndex(nextIndex);
-      }, 500); // Delay to ensure currentIndex state is updated after scroll is complete
+      }, 500);
     }
   };
 
   return (
     <View style={styles.container}>
       <SwiperFlatList
-        showPagination={false} // Hide the default dots pagination
+        showPagination={false}
         ref={scrollRef}
         onChangeIndex={({ index }) => setCurrentIndex(index)}
       >
