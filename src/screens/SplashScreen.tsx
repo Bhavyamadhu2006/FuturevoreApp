@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import SwiperWithChildren from "./SwiperWithChildren";
+import SwiperWithChildren from "../components/SwiperWithChildren";
 
 interface splash {}
 
