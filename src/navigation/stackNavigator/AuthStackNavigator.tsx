@@ -2,6 +2,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import FirstScreen from "../../screens/FirstScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import SplashScreen from "../../screens/SplashScreen";
+import RegisterScreen from "../../screens/RegisterScreen";
+import SignInScreen from "../../screens/SignInScreen";
 
 const Stack = createStackNavigator();
 
@@ -15,6 +17,8 @@ const AuthStack = () => {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="SplashScreen" component={SplashScreen} />
+        <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Screen name="SignInScreen" component={SignInScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

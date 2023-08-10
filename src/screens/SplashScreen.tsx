@@ -1,10 +1,10 @@
 import React, { FC } from "react";
-import SwiperWithChildren from "../components/SwiperWithChildren";
+import SwiperComponent from "../components/swiper";
 
 interface splash {}
 
 const SplashScreen: FC<splash> = () => {
-  return <SwiperWithChildren />;
+  return <SwiperComponent />;
 };
 
 export default SplashScreen;

@@ -9,60 +9,9 @@ import {
 } from "react-native";
 import SwiperFlatList from "react-native-swiper-flatlist";
 import { slides } from "../data/splashSlidesData";
+import { Button } from "native-base";
 
 const { width, height } = Dimensions.get("window");
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-  },
-  child: {
-    height: height * 0.5,
-    width,
-    justifyContent: "center",
-  },
-  image: {
-    width: "100%",
-    height: "100%",
-    resizeMode: "cover",
-    marginBottom: 40,
-  },
-  textContainer: {
-    padding: 20,
-    backgroundColor: "rgba(0, 0, 0, 0.7)",
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-  },
-  title: {
-    fontSize: 24,
-    color: "white",
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  description: {
-    fontSize: 16,
-    color: "white",
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    marginVertical: 100,
-  },
-  button: {
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 6,
-    backgroundColor: "black",
-  },
-  buttonText: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 20,
-  },
-});
 
 const SwiperComponent: React.FC = () => {
   const scrollRef = useRef<SwiperFlatList | null>(null);
@@ -109,8 +58,10 @@ const SwiperComponent: React.FC = () => {
       </SwiperFlatList>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => goToNextSlide()}>
-          <Text style={styles.buttonText}>Next</Text>
+        <TouchableOpacity>
+          <Button style={styles.button} onPress={() => goToNextSlide()}>
+            Next
+          </Button>
         </TouchableOpacity>
       </View>
     </View>
@@ -118,3 +69,48 @@ const SwiperComponent: React.FC = () => {
 };
 
 export default SwiperComponent;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  child: {
+    height: height * 0.5,
+    width,
+    justifyContent: "center",
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover",
+    marginBottom: 40,
+  },
+  textContainer: {
+    padding: 20,
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+  title: {
+    fontSize: 24,
+    color: "white",
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  description: {
+    fontSize: 16,
+    color: "white",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginVertical: 100,
+  },
+  button: {
+    marginBottom: 15,
+    width: 300,
+  },
+});

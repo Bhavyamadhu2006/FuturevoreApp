@@ -1,10 +1,14 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import FirstScreen from "./src/screens/FirstScreen";
+import { StyleSheet } from "react-native";
 import AuthStack from "./src/navigation/stackNavigator/AuthStackNavigator";
+import React from "react";
+import { NativeBaseProvider } from "native-base";
 
 export default function App() {
-  return <AuthStack />;
+  return (
+    <NativeBaseProvider>
+      <AuthStack />
+    </NativeBaseProvider>
+  );
 }
 
 const styles = StyleSheet.create({
